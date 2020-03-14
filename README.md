@@ -5,6 +5,8 @@ History:
 feature/doc-update
 feature/remove-auth
 
+added some new revisions
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.5.
 
 @anthonykuong - It has been updated to use angular cli 8.3.25 (ng --version)
