@@ -1,11 +1,10 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Router } from '@angular/router';
-import { catchError, tap } from 'rxjs/operators';
-import { throwError, BehaviorSubject } from 'rxjs';
-import { environment } from '../../environments/environment';
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {Router} from '@angular/router';
+import {map, tap} from 'rxjs/operators';
+import {BehaviorSubject, Observable, of, throwError} from 'rxjs';
 
-import { User } from './user.model';
+import {User} from './user.model';
 
 export interface AuthResponseData {
   kind: string;
@@ -21,53 +20,39 @@ export interface AuthResponseData {
 export class AuthService {
   user = new BehaviorSubject<User>(null);
   private tokenExpirationTimer: any;
-
   constructor(private http: HttpClient, private router: Router) {}
-
-  signup(email: string, password: string) {
-    return this.http
-      .post<AuthResponseData>(
-        'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=' + environment.firebaseAPIKey,
-        {
-          email: email,
-          password: password,
-          returnSecureToken: true
-        }
-      )
+  signup(email: string, password: string): Observable<any> {
+    const mockObs$ = of(['1']);
+    return mockObs$
       .pipe(
-        catchError(this.handleError),
         tap(resData => {
+          const resData2 = {localId : 'localId', idToken:'idToken', email: email, expiresIn : 'expiresIn'} ;
           this.handleAuthentication(
-            resData.email,
-            resData.localId,
-            resData.idToken,
-            +resData.expiresIn
+            resData2.email,
+            resData2.localId,
+            resData2.idToken,
+            +resData2.expiresIn
           );
         })
       );
   }
 
-  login(email: string, password: string) {
-    return this.http
-      .post<AuthResponseData>(
-        'https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=' + environment.firebaseAPIKey,
-        {
-          email: email,
-          password: password,
-          returnSecureToken: true
-        }
-      )
-      .pipe(
-        catchError(this.handleError),
-        tap(resData => {
-          this.handleAuthentication(
-            resData.email,
-            resData.localId,
-            resData.idToken,
-            +resData.expiresIn
-          );
-        })
+  login(email: string, password: string): Observable<any> {
+      const mockObs$ = of(['1']);
+    //  mockObs$.subscribe();
+      return mockObs$
+        .pipe(
+          tap(resData => {
+            const resData1 = {localId : 'localId', idToken:'idToken', email: email, expiresIn : 'expiresIn'} ;
+            this.handleAuthentication(
+              resData1.email,
+              resData1.localId,
+              resData1.idToken,
+              +resData1.expiresIn
+            );
+          })
       );
+
   }
 
   autoLogin() {

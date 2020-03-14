@@ -41,7 +41,7 @@ export class AuthComponent implements OnDestroy {
     const email = form.value.email;
     const password = form.value.password;
 
-    let authObs: Observable<AuthResponseData>;
+    let authObs: Observable<any>;
 
     this.isLoading = true;
 
@@ -56,12 +56,15 @@ export class AuthComponent implements OnDestroy {
         console.log(resData);
         this.isLoading = false;
         this.router.navigate(['/recipes']);
+        //this.router.navigate(['/shopping-list']);
       },
       errorMessage => {
         console.log(errorMessage);
         this.error = errorMessage;
         this.showErrorAlert(errorMessage);
         this.isLoading = false;
+        alert ('error');
+        this.router.navigate(['/recipes']);
       }
     );
 
